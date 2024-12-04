@@ -28,6 +28,10 @@ func stringToDeck(s string) deck {
 	return deck(strings.Split(s, ";"))
 }
 
+func byteSliceToDeck(b []byte) deck {
+	return stringToDeck(string(b))
+}
+
 func (d deck) print() {
 	for i, card := range d {
 		fmt.Printf("%d: %s\n", i, card)

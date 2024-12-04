@@ -1,7 +1,14 @@
 package main
 
 func main() {
-	cards := newDeck()
+	startingHand, _ := newDeck().deal(26)
+	hand := deck{}
 
-	cards.print()
+	hand, startingHand = startingHand.deal(1)
+
+	hand.print()
+
+	hand, startingHand = startingHand.deal(1)
+
+	hand.print()
 }

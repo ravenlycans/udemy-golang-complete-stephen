@@ -1,14 +1,15 @@
 package main
 
+import "fmt"
+
 func main() {
-	startingHand, _ := newDeck().deal(26)
-	hand := deck{}
+	hand, _ := newDeck().deal(10)
 
-	hand, startingHand = startingHand.deal(1)
+	handStringify := hand.toString()
 
-	hand.print()
+	fmt.Println(handStringify)
 
-	hand, startingHand = startingHand.deal(1)
+	recoveredHand := stringToDeck(handStringify)
 
-	hand.print()
+	fmt.Println(recoveredHand)
 }

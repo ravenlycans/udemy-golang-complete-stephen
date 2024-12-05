@@ -3,12 +3,10 @@ package main
 import "fmt"
 
 func main() {
+	deck := newDeck()
 
-	loadedHand := newDeckFromFile("myDeck")
-
-	if len(loadedHand) < 1 {
-		fmt.Println("No cards where loaded")
-	} else {
-		fmt.Printf("Loaded hand: %s", loadedHand)
-	}
+	deck.print()
+	fmt.Println("*************")
+	deck.shuffle()
+	deck.print()
 }

@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"math/rand"
 	"os"
 	"strings"
 )
@@ -44,6 +45,14 @@ func newDeckFromFile(filename string) deck {
 	return byteSliceToDeck(bs)
 }
 
+func randomizeDeckOrder(d deck) deck {
+	for i := range d {
+		j := rand.Intn(len(d))
+		d[i], d[j] = d[j], d[i]
+	}
+	return d
+}
+
 func (d deck) print() {
 	for i, card := range d {
 		fmt.Printf("%d: %s\n", i, card)
@@ -64,4 +73,10 @@ func (d deck) toByteSlice() []byte {
 
 func (d deck) saveToFile(filename string) error {
 	return os.WriteFile(filename, d.toByteSlice(), 0666)
+}
+
+func (d deck) shuffle() {
+	for i := 1; i <= 10; i++ {
+		d = randomizeDeckOrder(d)
+	}
 }

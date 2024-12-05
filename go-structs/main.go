@@ -25,15 +25,14 @@ func main() {
 
 	jane.print()
 
-	janePointer := &jane
-	janePointer.updateName("Susan")
+	(&jane).updateName("Susan")
 	jane.print()
 }
 
-func (pointerToPerson *person) updateName(newFirstName string) {
-	(*pointerToPerson).firstName = newFirstName
+func (p *person) updateName(newFirstName string) {
+	(*p).firstName = newFirstName
 }
 
-func (p person) print() {
+func (p *person) print() {
 	fmt.Printf("%s %s, email: %s, zipCode: %d\n", p.firstName, p.lastName, p.contact.email, p.contact.zipCode)
 }

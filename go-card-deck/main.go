@@ -3,15 +3,12 @@ package main
 import "fmt"
 
 func main() {
-	hand, _ := newDeck().deal(10)
 
-	handStringify := hand.toString()
-	handByteSlice := hand.toByteSlice()
+	loadedHand := newDeckFromFile("myDeck")
 
-	fmt.Println(handStringify)
-	fmt.Println(handByteSlice)
-
-	recoveredHand := byteSliceToDeck(handByteSlice)
-
-	fmt.Println(recoveredHand)
+	if len(loadedHand) < 1 {
+		fmt.Println("No cards where loaded")
+	} else {
+		fmt.Printf("Loaded hand: %s", loadedHand)
+	}
 }

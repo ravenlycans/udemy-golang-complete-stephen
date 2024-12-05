@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"os"
 	"strings"
 )
 
@@ -32,6 +33,17 @@ func byteSliceToDeck(b []byte) deck {
 	return stringToDeck(string(b))
 }
 
+func newDeckFromFile(filename string) deck {
+	bs, err := os.ReadFile(filename)
+
+	if err != nil {
+		fmt.Println(err)
+		return deck{}
+	}
+
+	return byteSliceToDeck(bs)
+}
+
 func (d deck) print() {
 	for i, card := range d {
 		fmt.Printf("%d: %s\n", i, card)
@@ -48,4 +60,8 @@ func (d deck) toString() string {
 
 func (d deck) toByteSlice() []byte {
 	return []byte(d.toString())
+}
+
+func (d deck) saveToFile(filename string) error {
+	return os.WriteFile(filename, d.toByteSlice(), 0666)
 }

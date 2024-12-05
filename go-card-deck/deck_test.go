@@ -32,13 +32,13 @@ func TestNewDeckLastCard(t *testing.T) {
 }
 
 func TestDeckShuffle(t *testing.T) {
-	deck := newDeck()
-	deck.shuffle()
+	d := newDeck()
+	d = d.shuffle()
 
 	deckOrig := newDeck()
 
-	if deckOrig.toString() == deck.toString() {
-		t.Errorf("Expected deck to be shuffled, got unshuffled deck string %s", deck.toString())
+	if deckOrig.toString() == d.toString() {
+		t.Errorf("Expected deck to be shuffled, got unshuffled deck string %s", d.toString())
 	}
 }
 
@@ -80,18 +80,20 @@ func TestNewDeckFromFile(t *testing.T) {
 }
 
 func TestDeckDeal(t *testing.T) {
-	deck := newDeck()
-	hand, remainingDeck := deck.deal(5)
+	d := newDeck()
+	hand := deck{}
+
+	hand, d = d.deal(5)
 
 	if len(hand) != 5 {
 		t.Errorf("Expected 5 cards in hand, got %d", len(hand))
 	}
 
-	if len(remainingDeck) != 47 {
-		t.Errorf("Expected 47 cards in remaining deck, got %d", len(remainingDeck))
+	if len(d) != 47 {
+		t.Errorf("Expected 47 cards in remaining deck, got %d", len(d))
 	}
 
-	if slices.Contains(remainingDeck, hand[0]) {
-		t.Errorf("Expected hand[0] to be removed from remaining deck, got %s", remainingDeck)
+	if slices.Contains(d, hand[0]) {
+		t.Errorf("Expected hand[0] to be removed from remaining deck, got %s", d)
 	}
 }

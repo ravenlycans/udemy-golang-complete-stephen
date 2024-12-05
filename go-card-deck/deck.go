@@ -78,12 +78,12 @@ func (d deck) saveToFile(filename string) error {
 	return os.WriteFile(filename, d.toByteSlice(), 0666)
 }
 
-func (d deck) shuffle() {
+func (d deck) shuffle() deck {
 	randDeck := d
 
 	for i := 1; i <= 10; i++ {
 		randDeck = randomizeDeckOrder(randDeck)
 	}
 
-	d = randDeck
+	return randDeck
 }

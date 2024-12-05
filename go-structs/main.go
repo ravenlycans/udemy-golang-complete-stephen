@@ -25,12 +25,13 @@ func main() {
 
 	jane.print()
 
-	jane.updateName("Susan")
+	janePointer := &jane
+	janePointer.updateName("Susan")
 	jane.print()
 }
 
-func (p person) updateName(newFirstName string) {
-	p.firstName = newFirstName
+func (pointerToPerson *person) updateName(newFirstName string) {
+	(*pointerToPerson).firstName = newFirstName
 }
 
 func (p person) print() {

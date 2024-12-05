@@ -25,7 +25,7 @@ func main() {
 
 	jane.print()
 
-	(&jane).updateName("Susan")
+	jane.updateName("Susan")
 	jane.print()
 }
 

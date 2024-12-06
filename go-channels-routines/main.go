@@ -3,9 +3,10 @@ package main
 import (
 	"fmt"
 	"net/http"
+	"sync"
 )
 
-func checkLink(url string) bool {
+func fetch(url string) bool {
 	resp, err := http.Get(url)
 
 	if err != nil {
@@ -17,6 +18,15 @@ func checkLink(url string) bool {
 	}
 
 	return true
+}
+
+func checkLink(url string, wg *sync.WaitGroup) {
+	defer wg.Done()
+	if fetch(url) {
+		fmt.Printf("Link %s is up\n", url)
+	} else {
+		fmt.Printf("Link %s is down\n", url)
+	}
 }
 
 func main() {
@@ -31,13 +41,15 @@ func main() {
 	fmt.Println("Starting to check links")
 	fmt.Println("*******************************")
 
+	var wg sync.WaitGroup
+
 	for _, link := range links {
-		if checkLink(link) {
-			fmt.Printf("Link %s is up\n", link)
-		} else {
-			fmt.Printf("Link %s is down\n", link)
-		}
+		wg.Add(1)
+		go checkLink(link, &wg)
 	}
+
+	wg.Wait()
+
 	fmt.Println("*******************************")
 	fmt.Println("Finished checking links.")
 }

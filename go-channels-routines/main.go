@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"net/http"
-	"sync"
 )
 
 func fetch(url string) bool {
@@ -20,12 +19,11 @@ func fetch(url string) bool {
 	return true
 }
 
-func checkLink(url string, wg *sync.WaitGroup) {
-	defer wg.Done()
+func checkLink(url string, c chan string) {
 	if fetch(url) {
-		fmt.Printf("Link %s is up\n", url)
+		c <- fmt.Sprintf("Link %s is up\n", url)
 	} else {
-		fmt.Printf("Link %s is down\n", url)
+		c <- fmt.Sprintf("Link %s is down\n", url)
 	}
 }
 
@@ -38,17 +36,18 @@ func main() {
 		"https://golang.org",
 	}
 
+	c := make(chan string)
+
 	fmt.Println("Starting to check links")
 	fmt.Println("*******************************")
 
-	var wg sync.WaitGroup
-
 	for _, link := range links {
-		wg.Add(1)
-		go checkLink(link, &wg)
+		go checkLink(link, c)
 	}
 
-	wg.Wait()
+	for i := 0; i < len(links); i++ {
+		fmt.Printf("%s", <-c)
+	}
 
 	fmt.Println("*******************************")
 	fmt.Println("Finished checking links.")
